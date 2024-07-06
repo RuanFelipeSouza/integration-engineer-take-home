@@ -70,6 +70,23 @@ This project is divided into two different services. The frontend inside the _fr
 If you're in the root folder go to the frontend folder( type _cd frontend_ in your terminal) and type _npm install_ to install all dependencies.
 After all dependencies are properly installed, type _npm run dev_ to start the service.
 
+```bash
+# go to the right folder
+$ cd frontend
+
+# install dependencies
+$ npm install
+
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
 **Run Backend**
 
 Create a new terminal, and access the backend folder. If you're in the root folder go to the backend folder( type _cd backend_ in your terminal) and type _npm install_ to install all dependencies.
@@ -77,6 +94,12 @@ After all dependencies are properly installed, type _npm run start:dev_ to start
 Backend is using Nestjs as the framework, so it may take a minute to bootstrap.
 
 ```bash
+# go to the right folder
+$ cd backend
+
+# install dependencies
+$ npm install
+
 # development
 $ npm run start
 
