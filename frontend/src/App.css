@@ -15,23 +15,25 @@ body {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
   color: #333;
+  margin-bottom: 20px;
 }
 
 .error {
   color: red;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .task-form,
 .task-list {
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
@@ -41,6 +43,28 @@ h1 {
 .task-list h2 {
   margin-bottom: 10px;
   color: #555;
+}
+
+.task-form input,
+.task-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.task-form button {
+  background-color: #28a745;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.task-form button:hover {
+  background-color: #218838;
 }
 
 .task-item {
@@ -71,49 +95,37 @@ h1 {
 }
 
 .task-buttons button {
-  padding: 5px 10px;
-  font-size: 14px;
-  color: #fff;
+  flex: 1;
+  padding: 5px; /* Diminui o tamanho do botão */
+  font-size: 12px; /* Ajusta o tamanho da fonte */
+  font-weight: bold; /* Define a fonte como negrito */
+  color: #fff; /* Define a cor da fonte como branca */
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .task-buttons button:nth-child(1) {
-  background-color: #28a745;
+  background-color: #007bff;
+}
+
+.task-buttons button:nth-child(1):hover {
+  background-color: #0056b3;
 }
 
 .task-buttons button:nth-child(2) {
-  background-color: #007bff;
+  background-color: #007bff; /* Mesma cor azul que o botão "Show More" */
+}
+
+.task-buttons button:nth-child(2):hover {
+  background-color: #0056b3;
 }
 
 .task-buttons button:nth-child(3) {
   background-color: #dc3545;
 }
 
-.task-buttons button:hover {
-  opacity: 0.9;
-}
-
-.task-form input {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.task-form button {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: #fff;
-  background-color: #28a745;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.task-form button:hover {
-  background-color: #218838;
+.task-buttons button:nth-child(3):hover {
+  background-color: #c82333;
 }
