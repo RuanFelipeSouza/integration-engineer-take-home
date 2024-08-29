@@ -23,13 +23,13 @@ export class TasksController {
       exceptionFactory: (errors) => new BadRequestException(errors),
     }),
   )
-  create(@Body() createTaskDto: CreateTaskDto): Task {
+  async create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
     return this.tasksService.create(createTaskDto);
   }
 
   @Get()
-  findAll(): Task[] {
-    return this.tasksService.findAll();
+  async findAll(): Promise<Task[]> {
+    return await this.tasksService.findAll();
   }
 
   @Put(':id')
@@ -38,12 +38,15 @@ export class TasksController {
       exceptionFactory: (errors) => new BadRequestException(errors),
     }),
   )
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto): Task {
-    return this.tasksService.update(+id, updateTaskDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ): Promise<Task> {
+    return await this.tasksService.update(id, updateTaskDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): void {
-    return this.tasksService.remove(+id);
+  async remove(@Param('id') id: string): Promise<void> {
+    return await this.tasksService.remove(id);
   }
 }

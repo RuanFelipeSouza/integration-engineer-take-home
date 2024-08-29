@@ -1,39 +1,41 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTaskDto, Task, UpdateTaskDto } from './tasks.dto';
+import { AwsService } from 'src/third-party/aws.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { TaskModel } from 'src/database/schemas/task.schema';
 
 @Injectable()
 export class TasksService {
+  constructor(
+    @InjectModel(TaskModel.name) private taskModel: Model<Task>,
+    private readonly awsService: AwsService,
+  ) {}
   private tasks: Task[] = [];
-  private nextId = 1;
 
-  create(createTaskDto: CreateTaskDto): Task {
-    const task: Task = {
-      id: this.nextId++,
-      ...createTaskDto,
-    };
-    this.tasks.push(task);
-    return task;
+  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    const newTask = new this.taskModel({ ...createTaskDto }).save();
+    await this.awsService.callLambda();
+    return newTask;
   }
 
-  findAll(): Task[] {
-    return this.tasks;
+  async findAll(): Promise<Task[]> {
+    return await this.taskModel.find();
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto): Task {
-    const taskIndex = this.tasks.findIndex((task) => task.id === id);
-    if (taskIndex === -1) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
-    const updatedTask = { ...this.tasks[taskIndex], ...updateTaskDto };
-    this.tasks[taskIndex] = updatedTask;
+  async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    const updatedTask = await this.taskModel.findOneAndUpdate(
+      { id: id },
+      {
+        ...updateTaskDto,
+      },
+      { new: true },
+    );
+
     return updatedTask;
   }
 
-  remove(id: number): void {
-    const taskIndex = this.tasks.findIndex((task) => task.id === id);
-    if (taskIndex === -1) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
-    }
-    this.tasks.splice(taskIndex, 1);
+  async remove(id: string): Promise<void> {
+    await this.taskModel.findOneAndDelete({ id: id });
   }
 }
