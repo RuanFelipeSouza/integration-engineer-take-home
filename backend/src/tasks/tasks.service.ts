@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTaskDto, Task, UpdateTaskDto } from './tasks.dto';
-import { AwsService } from 'src/third-party/aws.service';
+import { AwsService } from '../third-party/aws.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TaskModel } from 'src/database/schemas/task.schema';
+import { TaskModel } from '../database/schemas/task.schema';
 
 @Injectable()
 export class TasksService {
@@ -11,7 +11,6 @@ export class TasksService {
     @InjectModel(TaskModel.name) private taskModel: Model<Task>,
     private readonly awsService: AwsService,
   ) {}
-  private tasks: Task[] = [];
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
     const newTask = new this.taskModel({ ...createTaskDto }).save();

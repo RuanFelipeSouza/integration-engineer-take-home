@@ -3,13 +3,12 @@ import {
   Body,
   Controller,
   Get,
-  HttpExceptionOptions,
   Post,
   Query,
 } from '@nestjs/common';
 import { UserService } from './users.service';
 import { UserDTO } from './user.dto';
-import { Public } from 'src/decorators/isPublic';
+import { Public } from '../decorators/isPublic';
 
 @Controller('users')
 export class UserController {
@@ -17,18 +16,17 @@ export class UserController {
 
   @Public()
   @Post()
-  async create(@Body() user: UserDTO): Promise<UserDTO | HttpExceptionOptions> {
-    if (!user.username || !user.password)
-      return new BadRequestException({ message: 'Missing parameter' });
+  async create(@Body() user: UserDTO): Promise<UserDTO> {
+    if (!user.username || !user.password) {
+      throw new BadRequestException({ message: 'Missing parameter' });
+    }
     return await this.userService.create(user);
   }
 
   @Get()
-  async findOne(
-    @Query('username') username: string,
-  ): Promise<UserDTO | HttpExceptionOptions> {
+  async findOne(@Query('username') username: string): Promise<UserDTO> {
     if (!username) {
-      return new BadRequestException({ message: 'Missing parameter' });
+      throw new BadRequestException({ message: 'Missing parameter' });
     }
     return await this.userService.findOne(username);
   }
